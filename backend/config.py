@@ -100,33 +100,6 @@ for version in soup.find_all("h2"):
 CHANGELOG = changelog_json
 
 
-####################################
-# CUSTOM_NAME
-####################################
-
-CUSTOM_NAME = os.environ.get("CUSTOM_NAME", "")
-if CUSTOM_NAME:
-    try:
-        r = requests.get(f"https://api.openwebui.com/api/v1/custom/{CUSTOM_NAME}")
-        data = r.json()
-        if r.ok:
-            if "logo" in data:
-                url = (
-                    f"https://api.openwebui.com{data['logo']}"
-                    if data["logo"][0] == "/"
-                    else data["logo"]
-                )
-
-                r = requests.get(url, stream=True)
-                if r.status_code == 200:
-                    with open("./static/favicon.png", "wb") as f:
-                        r.raw.decode_content = True
-                        shutil.copyfileobj(r.raw, f)
-
-            WEBUI_NAME = data["name"]
-    except Exception as e:
-        print(e)
-        pass
 
 
 ####################################
@@ -215,7 +188,7 @@ if ENV == "prod":
 # OPENAI_API
 ####################################
 
-OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "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")
 OPENAI_API_BASE_URL = os.environ.get("OPENAI_API_BASE_URL", "")
 
 if OPENAI_API_BASE_URL == "":
@@ -305,19 +278,19 @@ CHUNK_SIZE = 1500
 CHUNK_OVERLAP = 100
 
 
-RAG_TEMPLATE = """Use the following context as your learned knowledge, inside <context></context> XML tags.
+
+RAG_TEMPLATE = """Utiliza el siguiente contexto como tu conocimiento adquirido, dentro de las etiquetas XML <context></context>.
 <context>
-    [context]
+[contexto]
 </context>
 
-When answer to user:
-- If you don't know, just say that you don't know.
-- If you don't know when you are not sure, ask for clarification.
-Avoid mentioning that you obtained the information from the context.
-And answer according to the language of the user's question.
-        
-Given the context information, answer the query.
-Query: [query]"""
+Cuando respondas al usuario:
+
+Si no sabes, simplemente di que no sabes.
+Si no estás seguro, pregunta por aclaraciones en lugar de mencionar que obtuviste la información del contexto.
+Y responde de acuerdo al idioma de la pregunta del usuario.
+Dado el contexto proporcionado, responde a la consulta.
+Consulta: [consulta]"""
 
 ####################################
 # Transcribe
