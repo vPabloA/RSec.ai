@@ -188,7 +188,7 @@ if ENV == "prod":
 # OPENAI_API
 ####################################
 
-OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "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")
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
 OPENAI_API_BASE_URL = os.environ.get("OPENAI_API_BASE_URL", "")
 
 if OPENAI_API_BASE_URL == "":
